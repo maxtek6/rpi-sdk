@@ -23,18 +23,32 @@
 #ifndef RPI_I2S_H
 #define RPI_I2S_H
 
-int rpi_i2s_open(const char *device);
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define RPI_I2S_STREAM_PLAYBACK 1
+#define RPI_I2S_STREAM_CAPTURE 2
+#define RPI_I2S_STREAM_DUPLEX 3
+
+int rpi_i2s_open(const char *device, int stream_type, int *handle);
 
 int rpi_i2s_close(int handle);
 
-int rpi_i2s_configure();
+int rpi_i2s_configure(int handle, unsigned int sample_rate, int channels, int bits_per_sample);
 
-int rpi_i2s_start();
+int rpi_i2s_start(int handle);
 
-int rpi_i2s_stop();
+int rpi_i2s_stop(int handle);
 
-int rpi_i2s_read();
+int rpi_i2s_read(int handle, void *buffer, size_t size, size_t *bytes_read);
 
-int rpi_i2s_write();
+int rpi_i2s_write(int handle, const void *buffer, size_t size, size_t *bytes_written);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RPI_I2S_H

@@ -25,4 +25,8 @@
 
 #include <rpi/i2s.h>
 
+int rpi_initialize();
+
+int rpi_shutdown();
+
 #endif
