@@ -23,6 +23,18 @@
 #ifndef RPI_I2S_H
 #define RPI_I2S_H
 
+int rpi_i2s_open(const char *device);
 
+int rpi_i2s_close(int handle);
+
+int rpi_i2s_configure();
+
+int rpi_i2s_start();
+
+int rpi_i2s_stop();
+
+int rpi_i2s_read();
+
+int rpi_i2s_write();
 
 #endif // RPI_I2S_H
