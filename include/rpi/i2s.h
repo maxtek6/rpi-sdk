@@ -33,11 +33,15 @@ extern "C" {
 #define RPI_I2S_STREAM_CAPTURE 2
 #define RPI_I2S_STREAM_DUPLEX 3
 
+#define RPI_I2S_LAYOUT_MONO 0
+#define RPI_I2S_LAYOUT_STEREO 1
+#define RPI_I2S_LAYOUT_STEREO_NI 2
+
 int rpi_i2s_open(const char *device, int stream_type, int *handle);
 
 int rpi_i2s_close(int handle);
 
-int rpi_i2s_configure(int handle, unsigned int sample_rate, int channels, int bits_per_sample);
+int rpi_i2s_configure(int handle, unsigned int sample_rate, int layout, int bits_per_sample);
 
 int rpi_i2s_start(int handle);
 

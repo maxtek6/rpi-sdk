@@ -18,39 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-cmake_minimum_required(VERSION 3.15)
+function(add_example example_name)
+    file(GLOB EXAMPLE_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/${example_name}.c"
+    )
+    add_executable(${example_name} ${EXAMPLE_SOURCES})
+    target_link_libraries(${example_name} PRIVATE rpi-sdk)
+endfunction()
 
-project(rpi-sdk)
-
-option(BUILD_EXAMPLES "Build example applications" OFF)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-find_package(ALSA REQUIRED)
-find_package(Threads REQUIRED)
-find_package(CURL REQUIRED)
-
-file(GLOB RPI_SDK_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
-)
-add_library(rpi-sdk SHARED ${RPI_SDK_SOURCES})
-target_include_directories(
-    rpi-sdk 
-    PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
-target_link_libraries(rpi-sdk PRIVATE ALSA::ALSA Threads::Threads CURL::libcurl)
-
-if(RPI_SDK_EXAMPLES)
-    add_subdirectory(examples)
-endif()
-
-install(TARGETS rpi-sdk
-    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-)
+add_example(i2s_record)
